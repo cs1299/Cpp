@@ -101,12 +101,12 @@ void CopyProgram(TASK_s *pro1,TASK_s *pro2) {
 
 /**
  * @brief get_time 获取时间
- * @return int 程序运行时间，单位ms
+ * @return int 程序运行时间，单位时间为10ms
  */
 int get_time(void)
 {
     clock_t t;
     t = clock();
-    int time = ((double)t / CLOCKS_PER_SEC) * 1000;
+    int time = ((double)t / CLOCKS_PER_SEC) * 100;
     return time;
 }
