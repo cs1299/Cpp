@@ -39,5 +39,6 @@ void sortWithEnterTime(TASK_s* task_list);
 TASK_s* PullQueue(TASKQueue* queue);
 void EnterQueue(TASKQueue* queue,TASK_s* task);
 void TaskQueueInit(TASKQueue* queue);
+int get_time(void);
 
 #endif //J_DEV_CONFIG_H
