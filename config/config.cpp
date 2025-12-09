@@ -33,20 +33,29 @@ void TaskQueueInit(TASKQueue* queue)
     queue->size = 0;
 }
 
+// void EnterQueue(TASKQueue* queue,TASK_s* task)//加入进程
+// {
+//     queue->LastProg->next =(TASK_s*)malloc(sizeof(TASK_s));
+//     queue->LastProg = queue->LastProg->next;
+//     memcpy(queue->LastProg->name, task->name, sizeof(task->name));
+//     queue->LastProg->priority = task->priority;
+//     queue->LastProg->running_time = task->running_time;
+//     queue->LastProg->copyRunning_time = task->copyRunning_time;
+//     queue->LastProg->arrivetime = task->arrivetime;
+//     queue->LastProg->serve_time = task->serve_time;
+//     queue->LastProg->status = task->status;
+//     queue->LastProg->next = nullptr;
+//     queue->size++;
+// }
+
 void EnterQueue(TASKQueue* queue,TASK_s* task)//加入进程
 {
-    queue->LastProg->next =(TASK_s*)malloc(sizeof(TASK_s));
+    queue->LastProg->next =task;
     queue->LastProg = queue->LastProg->next;
-    memcpy(queue->LastProg->name, task->name, sizeof(task->name));
-    queue->LastProg->priority = task->priority;
-    queue->LastProg->running_time = task->running_time;
-    queue->LastProg->copyRunning_time = task->copyRunning_time;
-    queue->LastProg->arrivetime = task->arrivetime;
-    queue->LastProg->serve_time = task->serve_time;
-    queue->LastProg->status = task->status;
     queue->LastProg->next = nullptr;
     queue->size++;
 }
+
 TASK_s* PullQueue(TASKQueue* queue)//取出进程
 {
     if (queue->size == 0)
@@ -101,12 +110,12 @@ void CopyProgram(TASK_s *pro1,TASK_s *pro2) {
 
 /**
  * @brief get_time 获取时间
- * @return int 程序运行时间，单位时间为10ms
+ * @return int 程序运行时间，单位时间为5ms
  */
 int get_time(void)
 {
     clock_t t;
     t = clock();
-    int time = ((double)t / CLOCKS_PER_SEC) * 100;
+    int time = ((double)t / CLOCKS_PER_SEC) * 500;
     return time;
 }
