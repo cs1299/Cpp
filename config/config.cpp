@@ -4,6 +4,7 @@
 
 #include "config.h"
 #include <string.h>
+#include <time.h>
 TASK_s tasks[10] =
 {
     {.name = "P1", .arrivetime = 5, .serve_time = 20},
@@ -84,4 +85,16 @@ void CopyProgram(TASK_s *pro1,TASK_s *pro2) {
     pro1->done_time=pro2->done_time;
     pro1->zztime=pro2->zztime;
     pro1->dqzztime=pro2->dqzztime;
+}
+
+/**
+ * @brief get_time 获取时间
+ * @return int 程序运行时间，单位ms
+ */
+int get_time(void)
+{
+    clock_t t;
+    t = clock();
+    int time = ((double)t / CLOCKS_PER_SEC) * 1000;
+    return time;
 }
