@@ -22,13 +22,14 @@ typedef struct TASK_s
     char name[20];             //进程名称 (输入)
     int  arrivetime;           //到达时间 (输入)
     int  serve_time;           //服务时间 (输入)
-    int  priority;             //优先级
+    float  priority;           //优先级
     int  copyRunning_time;     //用于时间片轮转
     float zztime;              //记录该进程的周转时间（后期复制用）
     float dqzztime;            //记录该进程的带权周转时间（后期复制用）
     int  start_time;           //开始时间
     int  done_time;            //结束时间
     int  running_time;         //已运行时间
+    int  waiting_time = 0;         //等待时间
     TASK_s* next=nullptr;
 }TASK_s;
 
