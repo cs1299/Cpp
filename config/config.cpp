@@ -6,19 +6,6 @@
 #include <malloc.h>
 #include <string.h>
 #include <time.h>
-TASK_s tasks[10] =
-{
-    {.name = "P1", .arrivetime = 5, .serve_time = 20},
-    {.name = "P2", .arrivetime = 17, .serve_time = 10},
-    {.name = "P3", .arrivetime = 25, .serve_time = 15},
-    {.name = "P4", .arrivetime = 33, .serve_time = 30},
-    {.name = "P5", .arrivetime = 45, .serve_time = 20},
-    {.name = "P6", .arrivetime = 50, .serve_time = 15},
-    {.name = "P7", .arrivetime = 60, .serve_time = 5},
-    {.name = "P8", .arrivetime = 68, .serve_time = 10},
-    {.name = "P9", .arrivetime = 80, .serve_time = 25},
-    {.name = "P10", .arrivetime = 100, .serve_time = 40},
-};
 
 void TaskQueueInit(TASKQueue* queue)
 {
@@ -50,6 +37,7 @@ void TaskQueueInit(TASKQueue* queue)
 
 void EnterQueue(TASKQueue* queue,TASK_s* task)//加入进程
 {
+    task->status = TASK_READY;
     queue->LastProg->next =task;
     queue->LastProg = queue->LastProg->next;
     queue->LastProg->next = nullptr;
@@ -110,12 +98,12 @@ void CopyProgram(TASK_s *pro1,TASK_s *pro2) {
 
 /**
  * @brief get_time 获取时间
- * @return int 程序运行时间，单位时间为5ms
+ * @return int 程序运行单位时间
  */
 int get_time(void)
 {
     clock_t t;
     t = clock();
-    int time = ((double)t / CLOCKS_PER_SEC) * 500;
+    int time = ((double)t / CLOCKS_PER_SEC) / UNIT_TIME;
     return time;
 }
