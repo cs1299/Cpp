@@ -6,6 +6,7 @@
 #define J_DEV_CONFIG_H
 #include <queue>
 #include <set>
+#include <malloc.h>
 typedef enum
 {
     TASK_READY,//就绪态

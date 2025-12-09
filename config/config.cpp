@@ -3,7 +3,6 @@
 //
 
 #include "config.h"
-#include <malloc.h>
 #include <string.h>
 TASK_s tasks[10] =
 {
@@ -21,7 +20,6 @@ TASK_s tasks[10] =
 
 void TaskQueueInit(TASKQueue* queue)
 {
-
     if (queue == NULL)
     {
         return;
