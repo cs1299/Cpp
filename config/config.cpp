@@ -39,6 +39,9 @@ void EnterQueue(TASKQueue* queue,TASK_s* task)//加入进程
     queue->LastProg->priority = task->priority;
     queue->LastProg->running_time = task->running_time;
     queue->LastProg->copyRunning_time = task->copyRunning_time;
+    queue->LastProg->arrivetime = task->arrivetime;
+    queue->LastProg->serve_time = task->serve_time;
+    queue->LastProg->status = task->status;
     queue->LastProg->next = nullptr;
     queue->size++;
 }
@@ -66,11 +69,10 @@ TASK_s* PullQueue(TASKQueue* queue)//取出进程
 void sortWithEnterTime(TASK_s* task_list)
 {
     TASK_s temp;
-    int task_num = sizeof(task_list)/sizeof(*task_list);
-    for (int i = 0; i < task_num - 1 - i; i++)
+    for (int i = 0; i < TASK_NUM - 1 - i; i++)
     {
         int swapped = 0;
-        for (int j = 0; j < task_num - 1; j++)
+        for (int j = 0; j < TASK_NUM - 1; j++)
         {
             if (tasks[j].arrivetime > tasks[j + 1].arrivetime)
             {
