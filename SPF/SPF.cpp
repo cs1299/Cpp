@@ -3,3 +3,7 @@
 //
 
 #include "SPF.h"
+void SPF_RUN()
+{
+    sortWithEnterTime(tasks);
+}

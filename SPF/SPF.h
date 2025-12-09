@@ -4,5 +4,6 @@
 
 #ifndef HOMEWORK_SPF_H
 #define HOMEWORK_SPF_H
-
+#include "config.h"
+void SPF_RUN();
 #endif //HOMEWORK_SPF_H
