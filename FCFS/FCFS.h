@@ -5,6 +5,8 @@
 #ifndef HOMEWORK_FCFS_H
 #define HOMEWORK_FCFS_H
 
-void FCFS(void);
+#include "config.h"
+
+void FCFS(TASK_s tasks[]);
 
 #endif //HOMEWORK_FCFS_H
