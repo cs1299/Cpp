@@ -4,7 +4,6 @@
 
 #include "FCFS.h"
 #include <stdio.h>
-#include "config.h"
 
 /**
  *
@@ -12,16 +11,21 @@
  */
 void FCFS(TASK_s tasks[])
 {
-    int task_num = sizeof(tasks)/sizeof(*tasks);
     sortWithEnterTime(tasks);
     TASKQueue ready_queue;
     TaskQueueInit(&ready_queue);
-    printf("FCFS开始运行");
+    printf("FCFS start\n");
     int i = 0;
     int last_size = ready_queue.size;
     int init_time = get_time();
     while (1)
     {
+        if (get_time() - init_time > tasks[TASK_NUM-1].arrivetime && ready_queue.size == 0)
+        {
+            //如果全部任务都到达了且就绪队列里没有任务要执行
+            printf("all tasks done!\n");
+            return;
+        }
         if (tasks[i].arrivetime<= get_time() - init_time)
         {
             //按到达时间依次将任务放进就绪队列
@@ -33,22 +37,22 @@ void FCFS(TASK_s tasks[])
         if (ready_queue.size != 0)
         {
             //当就绪队列不为空
-            //运行任务
-            // ready_queue.firstProg->running_time
             if (ready_queue.firstProg->status == TASK_READY)
             {
-
                 ready_queue.firstProg->status = TASK_RUNNING;
                 ready_queue.firstProg->start_time = get_time() - init_time;
-                printf("%s\t%d",ready_queue.firstProg->name,ready_queue.firstProg->start_time);
-
+                // printf("%s\t%d",ready_queue.firstProg->name,ready_queue.firstProg->start_time);
+                printf("%s",ready_queue.firstProg->name);
             }
             else if (ready_queue.firstProg->status == TASK_RUNNING)
             {
-                if (ready_queue.firstProg->running_time == ready_queue.firstProg->serve_time)
+                ready_queue.firstProg->running_time = get_time() - ready_queue.firstProg->start_time - init_time;
+                if (ready_queue.firstProg->running_time >= ready_queue.firstProg->serve_time)
                 {
                     //如果运行时长等于设定的服务时长
-
+                    //任务执行完成
+                    ready_queue.firstProg->done_time = get_time() - init_time;
+                    PullQueue(&ready_queue);
                 }
             }
         }
