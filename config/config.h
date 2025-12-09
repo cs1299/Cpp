@@ -18,7 +18,7 @@ typedef enum
 
 typedef struct TASK_s
 {
-    task_status_t status;    //进程状态
+    task_status_t status = TASK_WAIT;    //进程状态
     char name[20];             //进程名称 (输入)
     int  arrivetime;           //到达时间 (输入)
     int  serve_time;           //服务时间 (输入)
