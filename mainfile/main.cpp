@@ -1,6 +1,7 @@
 #include <iostream>
 #include "main.h"
 #include "FCFS.h"
+#include "RR.h"
 using namespace std;
 
 // void menu
@@ -13,7 +14,8 @@ int main() {
     // scanf("%d", &choose);
     // if (choose == 1)
     // {
-        FCFS(tasks);
+        // FCFS(tasks);
+    RR(tasks);
     // }
 
     return 0;

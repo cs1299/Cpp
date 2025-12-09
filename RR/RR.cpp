@@ -1,21 +1,22 @@
 //
-// Created by 47764 on 2025/12/9.
+// Created by 28339 on 2025/12/9.
 //
 
-#include "FCFS.h"
+#include "RR.h"
 #include <stdio.h>
 
 /**
- * @brief FCFS  先来先服务
+ *
  * @param tasks 任务数组
  */
-void FCFS(TASK_s tasks[])
+void RR(TASK_s tasks[])
 {
     sortWithEnterTime(tasks);    //按到达先后顺序排序
     TASKQueue ready_queue;       //创建就绪队列
     TaskQueueInit(&ready_queue); //初始化就绪队列
-    printf("--------------FCFS start---------------\n");
+    printf("--------------RR start----------------\n");
     int i = 0;
+    int slice_start_time = 0;
     int init_time = get_time();  //任务调度开始时间
     while (1)
     {
@@ -38,14 +39,18 @@ void FCFS(TASK_s tasks[])
             //当就绪队列不为空
             if (ready_queue.firstProg->next->status == TASK_READY)
             {
-                //刚开始执行某任务
                 ready_queue.firstProg->next->status = TASK_RUNNING;
-                ready_queue.firstProg->next->start_time = nowtime;
-                printf("%s   %d\n",ready_queue.firstProg->next->name,ready_queue.firstProg->next->start_time);
+                if (ready_queue.firstProg->next->start_time < 0)
+                {
+                    //第一次开始执行某任务
+                    ready_queue.firstProg->next->start_time = nowtime;
+                }
+                slice_start_time = nowtime;
+                printf("%s   %d\n", ready_queue.firstProg->next->name, nowtime);
             }
             else if (ready_queue.firstProg->next->status == TASK_RUNNING)
             {
-                ready_queue.firstProg->next->running_time = nowtime - ready_queue.firstProg->next->start_time;
+                ready_queue.firstProg->next->running_time = nowtime - slice_start_time + ready_queue.firstProg->next->slice_time * TIME_SLICE;
                 if (ready_queue.firstProg->next->running_time >= ready_queue.firstProg->next->serve_time)
                 {
                     //如果运行时长大于等于设定的服务时长
@@ -53,8 +58,14 @@ void FCFS(TASK_s tasks[])
                     ready_queue.firstProg->next->done_time = nowtime;
                     PullQueue(&ready_queue);
                 }
+                else if (nowtime - slice_start_time >= TIME_SLICE)
+                {
+                    //当前任务时间片耗尽
+                    ready_queue.firstProg->next->slice_time += 1;
+                    EnterQueue(&ready_queue, PullQueue(&ready_queue));
+
+                }
             }
         }
     }
 }
-
