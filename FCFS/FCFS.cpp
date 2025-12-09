@@ -16,20 +16,20 @@ void FCFS(TASK_s tasks[])
     TaskQueueInit(&ready_queue);
     printf("FCFS start\n");
     int i = 0;
-    int last_size = ready_queue.size;
+    int num_test = 0;
     int init_time = get_time();
     while (1)
     {
-        if (get_time() - init_time > tasks[TASK_NUM-1].arrivetime && ready_queue.size == 0)
+        int nowtime = get_time() - init_time;
+        if ((nowtime > tasks[TASK_NUM-1].arrivetime) && (ready_queue.size == 0))
         {
             //如果全部任务都到达了且就绪队列里没有任务要执行
             printf("all tasks done!\n");
             return;
         }
-        if (tasks[i].arrivetime <= get_time() - init_time)
+        if (tasks[i].arrivetime <= nowtime)
         {
             //按到达时间依次将任务放进就绪队列
-            last_size = ready_queue.size;
             tasks[i].status = TASK_READY;
             EnterQueue(&ready_queue, &tasks[i]);
 
@@ -40,19 +40,24 @@ void FCFS(TASK_s tasks[])
             //当就绪队列不为空
             if (ready_queue.firstProg->next->status == TASK_READY)
             {
+                if (num_test > 10)
+                {
+                    num_test = 0;
+                }
                 ready_queue.firstProg->next->status = TASK_RUNNING;
-                ready_queue.firstProg->next->start_time = get_time() - init_time;
-                printf("%s   %d\n",ready_queue.firstProg->name,ready_queue.firstProg->start_time);
+                ready_queue.firstProg->next->start_time = nowtime;
+                printf("%s   %d\n",ready_queue.firstProg->next->name,ready_queue.firstProg->next->start_time);
+                num_test++;
                 // printf("%s",ready_queue.firstProg->next->name);
             }
             else if (ready_queue.firstProg->next->status == TASK_RUNNING)
             {
-                ready_queue.firstProg->next->running_time = get_time() - ready_queue.firstProg->next->start_time - init_time;
+                ready_queue.firstProg->next->running_time = nowtime - ready_queue.firstProg->next->start_time;
                 if (ready_queue.firstProg->next->running_time >= ready_queue.firstProg->next->serve_time)
                 {
                     //如果运行时长等于设定的服务时长
                     //任务执行完成
-                    ready_queue.firstProg->next->done_time = get_time() - init_time;
+                    ready_queue.firstProg->next->done_time = nowtime;
                     PullQueue(&ready_queue);
                 }
             }
