@@ -37,8 +37,26 @@ void FCFS(TASK_s tasks[])
     int task_num = sizeof(tasks)/sizeof(*tasks);
     sortWithEnterTime(tasks, task_num);
     TASKQueue ready_queue;
+    TaskQueueInit(&ready_queue);
+    printf("FCFS开始运行");
+    int i = 0;
+    int last_size = ready_queue.size;
+    int init_time = get_time();
     while (1)
     {
+        if (tasks[i].arrivetime<= get_time() - init_time)
+        {
+            //按到达时间依次将任务放进就绪队列
+            last_size = ready_queue.size;
+            EnterQueue(&ready_queue, &tasks[i]);
+            i++;
+        }
+        if (ready_queue.size != 0)
+        {
+            //当就绪队列不为空
+            //运行任务
+            ready_queue.firstProg->running_time
+        }
 
     }
 }
