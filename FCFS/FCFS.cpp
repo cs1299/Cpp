@@ -27,12 +27,12 @@ void FCFS(TASK_s tasks[])
             printf("all tasks done!\n");
             return;
         }
-        if (tasks[i].arrivetime <= nowtime)
+        if (tasks[i].arrivetime <= nowtime && i < TASK_NUM)
         {
             //按到达时间依次将任务放进就绪队列
             tasks[i].status = TASK_READY;
             EnterQueue(&ready_queue, &tasks[i]);
-
+            // printf("%d\n", i);
             i++;
         }
         if (ready_queue.size != 0)
@@ -40,14 +40,11 @@ void FCFS(TASK_s tasks[])
             //当就绪队列不为空
             if (ready_queue.firstProg->next->status == TASK_READY)
             {
-                if (num_test > 10)
-                {
-                    num_test = 0;
-                }
+
                 ready_queue.firstProg->next->status = TASK_RUNNING;
                 ready_queue.firstProg->next->start_time = nowtime;
                 printf("%s   %d\n",ready_queue.firstProg->next->name,ready_queue.firstProg->next->start_time);
-                num_test++;
+
                 // printf("%s",ready_queue.firstProg->next->name);
             }
             else if (ready_queue.firstProg->next->status == TASK_RUNNING)
@@ -57,8 +54,13 @@ void FCFS(TASK_s tasks[])
                 {
                     //如果运行时长等于设定的服务时长
                     //任务执行完成
+                    if (num_test == 9)
+                    {
+                        num_test = 0;
+                    }
                     ready_queue.firstProg->next->done_time = nowtime;
                     PullQueue(&ready_queue);
+                    num_test++;
                 }
             }
         }
