@@ -4,6 +4,7 @@
 using namespace std;
 int main() {
     //cout << "Hello, World!" << endl;
-    system("pause");
+    // system("pause");
+    FCFS(tasks);
     return 0;
 }
