@@ -59,20 +59,28 @@ TASK_s* PullQueue(TASKQueue* queue)//取出进程
     return temp;
 }
 
+/**
+ * @brief sortWithEnterTime 按到达顺序排序
+ * @param task_list 要排序的任务数组
+ */
 void sortWithEnterTime(TASK_s* task_list)
 {
     TASK_s temp;
-    for (int i = 0; i < 10; i++)
+    int task_num = sizeof(task_list)/sizeof(*task_list);
+    for (int i = 0; i < task_num - 1 - i; i++)
     {
-        for (int t= i+1;t<10;t++)
+        int swapped = 0;
+        for (int j = 0; j < task_num - 1; j++)
         {
-            if (task_list[i].arrivetime > task_list[t].arrivetime)
+            if (tasks[j].arrivetime > tasks[j + 1].arrivetime)
             {
-                temp = task_list[i];
-                task_list[i] = task_list[t];
-                task_list[t] = temp;
+                temp = tasks[j];
+                tasks[j] = tasks[j + 1];
+                tasks[j + 1] = temp;
+                swapped = 1;
             }
         }
+        if (swapped == 0)break;
     }
 }
 
