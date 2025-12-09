@@ -6,6 +6,9 @@
 #define J_DEV_CONFIG_H
 #include <queue>
 #include <set>
+
+#define TASK_NUM 10
+
 typedef enum
 {
     TASK_READY,//就绪态
@@ -34,7 +37,9 @@ typedef struct  {
     TASK_s* LastProg;
     int size;
 } TASKQueue;
+
 extern TASK_s tasks[10];
+
 void sortWithEnterTime(TASK_s* task_list);
 TASK_s* PullQueue(TASKQueue* queue);
 void EnterQueue(TASKQueue* queue,TASK_s* task);
