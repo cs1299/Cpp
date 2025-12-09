@@ -26,32 +26,33 @@ void FCFS(TASK_s tasks[])
             printf("all tasks done!\n");
             return;
         }
-        if (tasks[i].arrivetime<= get_time() - init_time)
+        if (tasks[i].arrivetime <= get_time() - init_time)
         {
             //按到达时间依次将任务放进就绪队列
             last_size = ready_queue.size;
-            EnterQueue(&ready_queue, &tasks[i]);
             tasks[i].status = TASK_READY;
+            EnterQueue(&ready_queue, &tasks[i]);
+
             i++;
         }
         if (ready_queue.size != 0)
         {
             //当就绪队列不为空
-            if (ready_queue.firstProg->status == TASK_READY)
+            if (ready_queue.firstProg->next->status == TASK_READY)
             {
-                ready_queue.firstProg->status = TASK_RUNNING;
-                ready_queue.firstProg->start_time = get_time() - init_time;
-                // printf("%s\t%d",ready_queue.firstProg->name,ready_queue.firstProg->start_time);
-                printf("%s",ready_queue.firstProg->name);
+                ready_queue.firstProg->next->status = TASK_RUNNING;
+                ready_queue.firstProg->next->start_time = get_time() - init_time;
+                printf("%s   %d\n",ready_queue.firstProg->name,ready_queue.firstProg->start_time);
+                // printf("%s",ready_queue.firstProg->next->name);
             }
-            else if (ready_queue.firstProg->status == TASK_RUNNING)
+            else if (ready_queue.firstProg->next->status == TASK_RUNNING)
             {
-                ready_queue.firstProg->running_time = get_time() - ready_queue.firstProg->start_time - init_time;
-                if (ready_queue.firstProg->running_time >= ready_queue.firstProg->serve_time)
+                ready_queue.firstProg->next->running_time = get_time() - ready_queue.firstProg->next->start_time - init_time;
+                if (ready_queue.firstProg->next->running_time >= ready_queue.firstProg->next->serve_time)
                 {
                     //如果运行时长等于设定的服务时长
                     //任务执行完成
-                    ready_queue.firstProg->done_time = get_time() - init_time;
+                    ready_queue.firstProg->next->done_time = get_time() - init_time;
                     PullQueue(&ready_queue);
                 }
             }
