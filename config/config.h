@@ -7,6 +7,7 @@
 #include <queue>
 #include <set>
 #include <malloc.h>
+#define TASK_NUM 10
 typedef enum
 {
     TASK_READY,//就绪态
