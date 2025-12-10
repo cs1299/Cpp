@@ -6,6 +6,8 @@
 #include <string.h>
 #include <time.h>
 #include <malloc.h>
+#include <stdio.h>
+
 TASK_s tasks[TASK_NUM] =
 {
     {.name = "P1", .arrivetime = 5, .serve_time = 20},
@@ -134,4 +136,57 @@ float get_average_turnaround_time(TASK_s task[])
     }
     average_turnaround_time = (float)average_turnaround_time / TASK_NUM;
     return average_turnaround_time;
+}
+
+/**
+ * @brief algorithm_start_print 调度算法开始时打印
+ * @param a 选择的调度算法
+ */
+void algorithm_start_print(algorithm_choose a)
+{
+    switch (a)
+    {
+        case a_FCFS:
+            printf("/**--------FCFS--------**/\n");
+            break;
+        case a_SPF:
+            printf("/**--------SPF---------**/\n");
+            break;
+        case a_RR:
+            printf("/**---------RR---------**/\n");
+            break;
+        case a_HRRN:
+            printf("/**--------HRRN--------**/\n");
+            break;
+    }
+    printf("/* task_name \t time\t*/\n");
+}
+
+/**
+ * @brief task_start_print 任务开始执行时打印
+ * @param task 任务
+ * @param time 任务开始运行时间
+ */
+void task_start_print(TASK_s task, int time)
+{
+    printf("/* %s \t\t  %d\t*/\n",task.name, time);
+}
+
+/**
+ * @brief algorithm_end_print 调度算法执行完成后打印
+ */
+void algorithm_end_print(void)
+{
+    printf("/**---all task done----**/\n");
+}
+
+void print_all_task_state(TASK_s task[])
+{
+    printf("/**----------------------------------------------**/\n");
+    printf("/*-----任务名字----到达时间----开始时间----结束时间-----*/\n");
+    for (int i = 0; i < TASK_NUM; i++)
+    {
+        printf("/*");
+    }
+
 }
