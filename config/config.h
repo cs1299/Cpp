@@ -41,23 +41,10 @@ typedef struct
 
 /*---USER_DEFINE_BEGIN-------------------------------------------------------------*/
 #define TASK_NUM    10       //总任务数
-#define UNIT_TIME   0.005f   //单位时间 s
+#define UNIT_TIME   0.05f   //单位时间 s
 #define TIME_SLICE  5        //时间片时长为几个单位时间,使用时间片轮转时有效
 
-TASK_s tasks[TASK_NUM] =
-{
-    {.name = "P1", .arrivetime = 5, .serve_time = 20},
-    {.name = "P2", .arrivetime = 17, .serve_time = 10},
-    {.name = "P3", .arrivetime = 25, .serve_time = 15},
-    {.name = "P4", .arrivetime = 33, .serve_time = 30},
-    {.name = "P5", .arrivetime = 45, .serve_time = 20},
-    {.name = "P6", .arrivetime = 50, .serve_time = 15},
-    {.name = "P7", .arrivetime = 60, .serve_time = 5},
-    {.name = "P8", .arrivetime = 68, .serve_time = 10},
-    {.name = "P9", .arrivetime = 80, .serve_time = 25},
-    {.name = "P10", .arrivetime = 100, .serve_time = 40},
-};
-/*---USER_DEFINE_END---------------------------------------------------------------*/
+extern TASK_s tasks[TASK_NUM];
 
 void sortWithEnterTime(TASK_s* task_list);
 TASK_s* PullQueue(TASKQueue* queue);
