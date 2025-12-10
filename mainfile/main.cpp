@@ -12,5 +12,6 @@ int main()
 {
     // FCFS(tasks);
     RR(tasks);
+    print_summerize(tasks);
     return 0;
 }
