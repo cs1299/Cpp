@@ -1,6 +1,8 @@
 #include <iostream>
 #include "main.h"
 #include "SPF.h"
+#include "FCFS.h"
+#include "RR.h"
 #include <Windows.h>
 
 using namespace std;
