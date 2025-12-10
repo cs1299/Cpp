@@ -82,16 +82,16 @@ TASK_s* PullQueue(TASKQueue* queue)//取出进程
 void sortWithEnterTime(TASK_s* task_list)
 {
     TASK_s temp;
-    for (int i = 0; i < TASK_NUM - 1 - i; i++)
+    for (int i = 0; i < TASK_NUM - 1; i++)
     {
         int swapped = 0;
-        for (int j = 0; j < TASK_NUM - 1; j++)
+        for (int j = 0; j < TASK_NUM - 1 - i; j++)
         {
-            if (tasks[j].arrivetime > tasks[j + 1].arrivetime)
+            if (task_list[j].arrivetime > task_list[j + 1].arrivetime)
             {
-                temp = tasks[j];
-                tasks[j] = tasks[j + 1];
-                tasks[j + 1] = temp;
+                temp = task_list[j];
+                task_list[j] = task_list[j + 1];
+                task_list[j + 1] = temp;
                 swapped = 1;
             }
         }
