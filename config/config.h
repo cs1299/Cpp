@@ -14,6 +14,14 @@ typedef enum
     TASK_WAIT,    //阻塞态
 } task_status_t;
 
+typedef enum
+{
+    a_FCFS,   //先来先服务
+    a_SPF,    //短进程优先
+    a_RR,     //时间片轮转
+    a_HRRN,   //高响应比优先调度算法
+} algorithm_choose;
+
 typedef struct TASK_s
 {
     task_status_t status = TASK_WAIT;    //进程状态
@@ -51,6 +59,9 @@ TASK_s* PullQueue(TASKQueue* queue);
 void EnterQueue(TASKQueue* queue,TASK_s* task);
 void TaskQueueInit(TASKQueue* queue);
 int get_time(void);
+void algorithm_start_print(algorithm_choose a);
+void task_start_print(TASK_s task, int time);
+void algorithm_end_print(void);
 float get_average_turnaround_time(TASK_s task[]);
 
 #endif //J_DEV_CONFIG_H
