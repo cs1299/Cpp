@@ -14,7 +14,7 @@ void FCFS(TASK_s tasks[])
     sortWithEnterTime(tasks);    //按到达先后顺序排序
     TASKQueue ready_queue;       //创建就绪队列
     TaskQueueInit(&ready_queue); //初始化就绪队列
-    printf("--------------FCFS start---------------\n");
+    algorithm_start_print(a_FCFS);
     int i = 0;
     int init_time = get_time();  //任务调度开始时间
     while (1)
@@ -23,7 +23,7 @@ void FCFS(TASK_s tasks[])
         if ((nowtime > tasks[TASK_NUM-1].arrivetime) && (ready_queue.size == 0))
         {
             //如果全部任务都到达了且就绪队列里没有任务要执行
-            printf("--------------all tasks done----------------!\n");
+            algorithm_end_print();
             return;
         }
         if (tasks[i].arrivetime <= nowtime && i < TASK_NUM)
@@ -41,7 +41,7 @@ void FCFS(TASK_s tasks[])
                 //刚开始执行某任务
                 ready_queue.firstProg->next->status = TASK_RUNNING;
                 ready_queue.firstProg->next->start_time = nowtime;
-                printf("%s   %d\n",ready_queue.firstProg->next->name,ready_queue.firstProg->next->start_time);
+                task_start_print(*(ready_queue.firstProg->next), nowtime);
             }
             else if (ready_queue.firstProg->next->status == TASK_RUNNING)
             {
