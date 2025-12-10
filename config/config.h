@@ -63,5 +63,6 @@ void algorithm_start_print(algorithm_choose a);
 void task_start_print(TASK_s task, int time);
 void algorithm_end_print(void);
 float get_average_turnaround_time(TASK_s task[]);
+void print_summerize(TASK_s task[]);
 
 #endif //J_DEV_CONFIG_H
