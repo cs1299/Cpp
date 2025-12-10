@@ -16,10 +16,10 @@ typedef enum
 
 typedef enum
 {
-    a_FCFS,   //先来先服务
-    a_SPF,    //短进程优先
-    a_RR,     //时间片轮转
-    a_HRRN,   //高响应比优先调度算法
+    a_FCFS = 1,   //先来先服务
+    a_SPF,        //短进程优先
+    a_RR,         //时间片轮转
+    a_HRRN,       //高响应比优先调度算法
 } algorithm_choose;
 
 typedef struct TASK_s
