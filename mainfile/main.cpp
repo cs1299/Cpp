@@ -1,15 +1,10 @@
 #include <iostream>
 #include "main.h"
 #include "SPF.h"
+#include "FCFS.h"
+#include "RR.h"
 #include <Windows.h>
 using namespace std;
-<<<<<<< Updated upstream
-int main() {
-    //cout << "Hello, World!" << endl;
-    SetConsoleOutputCP(CP_UTF8);//输出中文方法2
-    SPF_RUN(tasks,10);
-    //system("pause");
-=======
 
 int main()
 {
@@ -39,6 +34,5 @@ int main()
             break;
     }
     print_summerize(tasks);
->>>>>>> Stashed changes
     return 0;
 }
