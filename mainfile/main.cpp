@@ -1,22 +1,12 @@
 #include <iostream>
 #include "main.h"
-#include "FCFS.h"
-#include "RR.h"
+#include "SPF.h"
+#include <Windows.h>
 using namespace std;
-
-// void menu
-
 int main() {
     //cout << "Hello, World!" << endl;
-    // system("pause");
-    // int choose;
-    // printf("please choose:\n1:FCFS\n");
-    // scanf("%d", &choose);
-    // if (choose == 1)
-    // {
-        // FCFS(tasks);
-    RR(tasks);
-    // }
-
+    SetConsoleOutputCP(CP_UTF8);//输出中文方法2
+    SPF_RUN(tasks,10);
+    //system("pause");
     return 0;
 }
