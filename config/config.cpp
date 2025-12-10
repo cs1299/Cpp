@@ -132,9 +132,9 @@ float get_average_turnaround_time(TASK_s task[])
     float average_turnaround_time = 0;
     for (int i = 0; i < TASK_NUM; i++)
     {
-        average_turnaround_time += task[i].arrivetime - task[i].done_time;
+        average_turnaround_time += task[i].done_time - task[i].arrivetime;
     }
-    average_turnaround_time = (float)average_turnaround_time / TASK_NUM;
+    average_turnaround_time = average_turnaround_time / (float)TASK_NUM;
     return average_turnaround_time;
 }
 
@@ -180,13 +180,18 @@ void algorithm_end_print(void)
     printf("/**---all task done----**/\n");
 }
 
-void print_all_task_state(TASK_s task[])
+/**
+ * @brief print_summerize 打印总结
+ * @param task 任务数组
+ */
+void print_summerize(TASK_s task[])
 {
-    printf("/**----------------------------------------------**/\n");
-    printf("/*-----任务名字----到达时间----开始时间----结束时间-----*/\n");
+    printf("/**-----------------------------SUMMERIZE------------------------------**/\n");
+    printf("/*   task name \t\tarrive time\tstart time\tend time\t*/\n");
     for (int i = 0; i < TASK_NUM; i++)
     {
-        printf("/*");
+        printf("/*   %s \t\t%d\t\t%d\t\t%d\t\t*/\n", task[i].name, task[i].arrivetime, task[i].start_time, task[i].done_time);
     }
-
+    printf("/*   average turnaround time = %.2f                                    */\n", get_average_turnaround_time(task));
+    printf("/**--------------------------------------------------------------------**/\n");
 }
