@@ -51,5 +51,6 @@ TASK_s* PullQueue(TASKQueue* queue);
 void EnterQueue(TASKQueue* queue,TASK_s* task);
 void TaskQueueInit(TASKQueue* queue);
 int get_time(void);
+float get_average_turnaround_time(TASK_s task[]);
 
 #endif //J_DEV_CONFIG_H
