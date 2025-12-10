@@ -119,3 +119,19 @@ int get_time(void)
     int time = ((double)t / CLOCKS_PER_SEC) / UNIT_TIME;
     return time;
 }
+
+/**
+ * @brief get_average_turnaround_time 获取平均周转时间
+ * @param task 任务数组
+ * @return float 平均周转时间
+ */
+float get_average_turnaround_time(TASK_s task[])
+{
+    float average_turnaround_time = 0;
+    for (int i = 0; i < TASK_NUM; i++)
+    {
+        average_turnaround_time += task[i].arrivetime - task[i].done_time;
+    }
+    average_turnaround_time = (float)average_turnaround_time / TASK_NUM;
+    return average_turnaround_time;
+}
