@@ -3,6 +3,10 @@
 #include "SPF.h"
 #include <Windows.h>
 using namespace std;
+void menu(void)
+{
+
+}
 int main() {
     //cout << "Hello, World!" << endl;
     SetConsoleOutputCP(CP_UTF8);//输出中文方法2
