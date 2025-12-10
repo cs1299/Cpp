@@ -3,10 +3,9 @@
 //
 
 #include "SPF.h"
-void SPF_SOFT(TASK_s* task_list,int num,TASKQueue* ready_queue);
+void CreateQueueWithRuntime(TASK_s* task,TASKQueue* ready_queue,int index);
 void SPF_RUN(TASK_s* task_list,int num)
 {
-    static int systick=0;
     static int pronum = 1;
     static int last_pronum=0;
     int index=0;
@@ -20,33 +19,35 @@ void SPF_RUN(TASK_s* task_list,int num)
         exit(1);
     }
     TaskQueueInit(ready_queue_);
-    //CreateQueueWithRuntime(&task_list[0],ready_queue_);
     sys_start_time=get_time();
-
+    std::cout<<"系统开始"<<std::endl;
     while(pronum<=10)
     {
         time=get_time();
         sys_done_time=time-sys_start_time;
-        std::cout<<"系统时间片："<<sys_done_time<<" 当前时间："<<time<<std::endl;
+
         if (sys_done_time>task_list[index].arrivetime && index<num)
         {
-            CreateQueueWithRuntime(&task_list[index],ready_queue_);
+            CreateQueueWithRuntime(&task_list[index],ready_queue_,index);
             index++;
         }
 
-        if (last_pronum!=pronum && ready_queue_->firstProg->next!=nullptr || index==10 )
+        if (last_pronum!=pronum && ready_queue_->firstProg->next!=nullptr )
         {
+
             temp=PullQueue(ready_queue_);
             temp->start_time=get_time();
             last_pronum=pronum;
-            std::cout << std::endl << "正在执行进程：" << temp->name << std::endl;
+            std::cout << "正在执行进程：" << temp->name << std::endl;
         }
         if (temp!=nullptr)
         {
-            temp->done_time=time - temp->start_time;
-            if (temp->done_time>=temp->serve_time && index>pronum)
+            temp->running_time=time - temp->start_time;
+            if (temp->running_time>=temp->serve_time)
             {
                 pronum++;
+                temp->done_time=sys_done_time;
+                std::cout << "结束时间：" << temp->done_time << std::endl;
             }
         }
 
@@ -55,35 +56,31 @@ void SPF_RUN(TASK_s* task_list,int num)
 
 
 }
-void SPF_SOFT(TASK_s* task_list,int num,TASKQueue* ready_queue)
-{
-    TaskQueueInit(ready_queue);
-    for (int i=1;i<num;i++)
-    {
-        CreateQueueWithRuntime(&task_list[i],ready_queue);
-    }
 
-}
-
-void CreateQueueWithRuntime(TASK_s* task,TASKQueue* ready_queue)
+void CreateQueueWithRuntime(TASK_s* task,TASKQueue* ready_queue,int index)
 {
+
     TASK_s*p,*q;
     p=ready_queue->firstProg->next;
     q=ready_queue->firstProg;
-    while (p)//队头插入、队末取
+    while (p && index<=9)//队头插入、队末取
     {
         if (p->serve_time>task->serve_time)
         {
             task->next=p;
             q->next=task;
+            break;
         }
         q=p;
         p=p->next;
+        //if (index>=9)return;
     }
     if (!p)
     {
-        q->next=task;
+        ready_queue->LastProg->next=task;
+        ready_queue->LastProg=task;
         task->next=nullptr;
     }
     ready_queue->size++;
+
 }

@@ -7,6 +7,6 @@ int main() {
     //cout << "Hello, World!" << endl;
     SetConsoleOutputCP(CP_UTF8);//输出中文方法2
     SPF_RUN(tasks,10);
-    system("pause");
+    //system("pause");
     return 0;
 }
