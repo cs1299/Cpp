@@ -26,13 +26,8 @@ void CreateQueueWithPriority(TASKQueue* ready_queue, TASK_s* task)
 }
 
 
-
-//=========================================================
-// HRRN 优先级计算 + 链表排序（响应比从大到小）
-//=========================================================
 void calpriority(TASKQueue* ready_queue, int sys_done_time)
 {
-    // ---------- 1. 计算响应比 ----------
     TASK_s* p = ready_queue->firstProg->next;
     while (p) {
         p->waiting_time = sys_done_time - p->dqzztime;
@@ -40,20 +35,17 @@ void calpriority(TASKQueue* ready_queue, int sys_done_time)
         p = p->next;
     }
 
-    // ---------- 2. 单链表插入排序 ----------
     TASK_s* sorted = nullptr;
     TASK_s* cur = ready_queue->firstProg->next;
 
     while (cur) {
         TASK_s* next = cur->next;
 
-        // 插入开头或作为最大响应比节点
         if (sorted == nullptr || cur->priority > sorted->priority) {
             cur->next = sorted;
             sorted = cur;
         }
         else {
-            // 找到插入点（从大到小）
             TASK_s* s = sorted;
             while (s->next && s->next->priority >= cur->priority) {
                 s = s->next;
@@ -65,22 +57,16 @@ void calpriority(TASKQueue* ready_queue, int sys_done_time)
         cur = next;
     }
 
-    // ---------- 3. 挂回 ready_queue ----------
     ready_queue->firstProg->next = sorted;
 
-    // ---------- 4. 重新更新尾指针 LastProg ----------
     TASK_s* t = sorted;
     while (t && t->next) t = t->next;
     ready_queue->LastProg = t;
 }
 
-
-
-//=========================================================
-// HRRN 调度核心循环
-//=========================================================
 void HRRN_RUN(TASK_s* task_list, int num)
 {
+    algorithm_start_print(a_HRRN);
     static int sys_start_time = 0;
     static int sys_done_time = 0;
     static int pronum = 1;
@@ -90,10 +76,8 @@ void HRRN_RUN(TASK_s* task_list, int num)
     int index = 0;
     int time = 0;
 
-    // 保证按到达时间排序
     sortWithEnterTime(task_list);
 
-    // 创建队列
     TASKQueue* ready_queue_ = (TASKQueue*)malloc(sizeof(TASKQueue));
     if (!ready_queue_) {
         std::cout << "分配就绪队列头结点空间失败！" << std::endl;
@@ -115,21 +99,17 @@ void HRRN_RUN(TASK_s* task_list, int num)
             index++;
         }
 
-        // ------------------ 更新 HRRN 优先级 + 排序 ------------------
         calpriority(ready_queue_, sys_done_time);
 
-        // ------------------ 若当前无执行进程 → 拉取队首 ------------------
         if (last_pronum != pronum && ready_queue_->firstProg->next != nullptr)
         {
             temp = PullQueue(ready_queue_);
             temp->start_time = get_time();
             temp->waiting_time = temp->start_time - temp->dqzztime;
-
-            std::cout << "正在执行进程：" << temp->name << std::endl;
+            task_start_print(*temp,sys_done_time);
             last_pronum = pronum;
         }
 
-        // ------------------ 判断执行是否完成 ------------------
         if (temp != nullptr)
         {
             temp->running_time = time - temp->start_time;
@@ -137,9 +117,6 @@ void HRRN_RUN(TASK_s* task_list, int num)
             if (temp->running_time >= temp->serve_time)
             {
                 temp->done_time = sys_done_time;
-
-                std::cout << "结束时间：" << temp->done_time << std::endl;
-
                 pronum++;
                 temp = nullptr;
             }

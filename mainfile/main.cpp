@@ -1,10 +1,4 @@
-#include <iostream>
 #include "main.h"
-#include "SPF.h"
-#include "FCFS.h"
-#include "RR.h"
-#include <Windows.h>
-
 using namespace std;
 
 int main()
@@ -25,15 +19,18 @@ int main()
             FCFS(tasks);
             break;
         case a_SPF:
-
+            SPF_RUN(tasks, TASK_NUM);
+            algorithm_end_print();
             break;
         case a_RR:
             RR(tasks);
             break;
         case a_HRRN:
-
+            HRRN_RUN(tasks, TASK_NUM);
+            algorithm_end_print();
             break;
     }
     print_summerize(tasks);
+    system("pause");
     return 0;
 }

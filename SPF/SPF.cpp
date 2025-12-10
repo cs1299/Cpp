@@ -13,6 +13,7 @@ void SPF_RUN(TASK_s* task_list,int num)
     int time,sys_done_time,sys_start_time;
     sortWithEnterTime(tasks);
     TASKQueue* ready_queue_ = (TASKQueue*)malloc(sizeof(TASKQueue));
+    algorithm_start_print(a_SPF);
     if (ready_queue_==nullptr)
     {
         std::cout<<"分配就绪队列头结点空间失败！"<<std::endl;
@@ -20,7 +21,6 @@ void SPF_RUN(TASK_s* task_list,int num)
     }
     TaskQueueInit(ready_queue_);
     sys_start_time=get_time();
-    std::cout<<"系统开始"<<std::endl;
     while(pronum<=10)
     {
         time=get_time();
@@ -37,7 +37,7 @@ void SPF_RUN(TASK_s* task_list,int num)
             temp=PullQueue(ready_queue_);
             temp->start_time=get_time();
             last_pronum=pronum;
-            std::cout << "正在执行进程：" << temp->name << std::endl;
+            task_start_print(*temp,sys_done_time);
         }
         if (temp!=nullptr)
         {
@@ -46,7 +46,6 @@ void SPF_RUN(TASK_s* task_list,int num)
             {
                 pronum++;
                 temp->done_time=sys_done_time;
-                std::cout << "结束时间：" << temp->done_time << std::endl;
             }
         }
 
