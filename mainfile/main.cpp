@@ -2,17 +2,15 @@
 #include "main.h"
 #include "SPF.h"
 #include <Windows.h>
+#include "config.h"
+#include "FCFS.h"
+#include "RR.h"
+
 using namespace std;
 
-void menu(void)
+int main()
 {
-
-}
-
-int main() {
-    //cout << "Hello, World!" << endl;
-    SetConsoleOutputCP(CP_UTF8);//输出中文方法2
-    SPF_RUN(tasks,10);
-    //system("pause");
+    // FCFS(tasks);
+    RR(tasks);
     return 0;
 }
