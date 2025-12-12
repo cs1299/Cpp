@@ -3,10 +3,6 @@
 //
 
 #include "config.h"
-#include <string.h>
-#include <time.h>
-#include <malloc.h>
-#include <stdio.h>
 
 TASK_s tasks[TASK_NUM] =
 {
@@ -21,7 +17,8 @@ TASK_s tasks[TASK_NUM] =
     {.name = "P9", .arrivetime = 80, .serve_time = 25},
     {.name = "P10", .arrivetime = 100, .serve_time = 40},
 };
-/*---USER_DEFINE_END---------------------------------------------------------------*/
+
+
 void TaskQueueInit(TASKQueue* queue)
 {
     if (queue == NULL)
@@ -106,8 +103,6 @@ void CopyProgram(TASK_s *pro1,TASK_s *pro2) {
     pro1->priority=pro2->priority;
     pro1->start_time=pro2->start_time;
     pro1->done_time=pro2->done_time;
-    pro1->zztime=pro2->zztime;
-    pro1->dqzztime=pro2->dqzztime;
 }
 
 /**
