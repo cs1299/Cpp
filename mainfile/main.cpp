@@ -31,5 +31,6 @@ int main()
             break;
     }
     print_summerize(tasks);
+    system("pause");
     return 0;
 }
